@@ -12,6 +12,6 @@ function App() {
     </div>
   );
 }
-//second commit
+//second commit / detached commit add
 
 export default App;
