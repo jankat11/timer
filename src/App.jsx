@@ -5,10 +5,13 @@ var myInt;
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [status, setStatus] = useState(true);
+  const [position, setPosition] = useState("centered");
 
   useEffect(() => {
     dispatch({ type: "set_initial"});
+    return () => {
+      clearInterval(myInt);
+    }
   }, []);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ function App() {
     clearInterval(myInt);
     if (state.isSetTime) {
       dispatch({ type: "set_sec" });
-      dispatch({ type: "set_minute", payload: state.minVal });
+      dispatch({ type: "set_minute", payload: state.minVal || 0 });
     } else {
       dispatch({ type: "set_default_sec" });
       dispatch({ type: "reset_minute" });
@@ -65,71 +68,81 @@ function App() {
 
   return (
     <>
-      {!state.finished ? (
-        <div style={{ color: "white" }}>
-          <h1>
-            {state.sec == state.secondPerMinute &&
-            state.min == state.givenMinute - 1 
-              ? state.givenMinute
-              : state.min}{" "}
-            : {state.sec < 10 ? "0" : ""}{state.sec == state.secondPerMinute ? "00" : state.sec}
-          </h1>
+      <section className={`screen ${position}`}>
+        <div className="container">
+          {!state.finished ? (
+            <div className="time" style={{ color: "white" }}>
+              <h1>
+                {state.sec == state.secondPerMinute &&
+                state.min == state.givenMinute - 1
+                  ? state.givenMinute
+                  : state.min}{" "}
+                : {state.sec < 10 ? "0" : ""}{state.sec == state.secondPerMinute ? "00" : state.sec}
+              </h1>
+            </div>
+          ) : (
+            <h1 className="time" style={{ color: "red" }}>TIME IS UP</h1>
+          )}
+          <button id="start" disabled={state.dis} onClick={handleStart}>
+            {state.startButtonValue}
+          </button>
+          <br></br>
+          <button id="stop" disabled={state.finished} onClick={handleStop}>
+            Stop
+          </button>
+          <br></br>
+          <button id="reset" onClick={reset}>
+            RESET
+          </button>
+          <form onSubmit={handleSubmit}>
+            <p>Custom time</p>
+            <input
+              value={state.minVal}
+              onChange={(e) =>
+                dispatch({
+                  type: "handle_change_min",
+                  payload: parseInt(e.target.value),
+                })
+              }
+              placeholder=" minute"
+              type="number"
+              max="60"
+              min="0"
+            />
+            <br />
+            <input
+              value={state.secVal}
+              onChange={(e) =>
+                dispatch({
+                  type: "handle_change_sec",
+                  payload: parseInt(e.target.value),
+                })
+              }
+              placeholder=" second"
+              type="number"
+              max="59"
+              min="0"
+            />
+            <div className="buttonWrapper">
+              <button
+                disabled={
+                  (!parseInt(state.minVal) && !parseInt(state.secVal)) ||
+                  (state.minVal > 60 || state.secVal < 0)
+                }
+                id="set"
+                type="submit"
+              >
+                set time
+              </button>
+            </div>
+          </form>
         </div>
-      ) : (
-        <h1 style={{ color: "red" }}>TIME IS UP</h1>
-      )}
-      <button id="start" disabled={state.dis} onClick={handleStart}>
-        {state.startButtonValue}
-      </button>
-      <br></br>
-      <button id="stop" disabled={state.finished} onClick={handleStop}>
-        Stop
-      </button>
-      <br></br>
-      <button id="reset" onClick={reset}>
-        RESET
-      </button>
-
-      <form onSubmit={handleSubmit}>
-        <p>Custom time</p>
-        <input
-          value={state.minVal}
-          onChange={(e) =>
-            dispatch({
-              type: "handle_change_min",
-              payload: parseInt(e.target.value),
-            })
-          }
-          placeholder=" minute"
-          type="number"
-          max="60"
-          min="0"
-        />
-        <br />
-        <input
-          value={state.secVal}
-          onChange={(e) =>
-            dispatch({
-              type: "handle_change_sec",
-              payload: parseInt(e.target.value),
-            })
-          }
-          placeholder=" second"
-          type="number"
-          max="59"
-          min="0"
-        />
-        <button
-          disabled={
-            (!parseInt(state.minVal) && !parseInt(state.secVal)) ||
-            (state.minVal > 60 || state.secVal < 0)
-          }
-          id="set"
-          type="submit"
-        >
-          set time
-        </button>
-      </form>
+      </section>
+      <footer>
+        <button onClick={() => setPosition("left-sided")} id="left">LEFT</button>
+        <button onClick={() => setPosition("centered")} id="center">CENTER</button>
+        <button onClick={() => setPosition("right-sided")} id="right">RIGHT</button>
+      </footer>
     </>
   );
 }
