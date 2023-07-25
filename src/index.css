@@ -1,0 +1,53 @@
+body {
+  background-color: black;
+}
+
+#start, #stop, #reset, #set {
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  margin-top: 0.4rem;
+  min-width: 5.4rem;
+  background-color: rgba(102, 51, 153, 0.13);
+  color: #eee;
+  border: solid 1px rgba(102, 51, 153, 0.479);
+}
+
+
+#start:hover, #stop:hover, #reset:hover, #set:hover {
+  background-color: rgba(102, 51, 153, 0.377);
+  cursor: pointer;
+}
+
+#start:disabled, #stop:disabled, #set:disabled {
+  color: #99999938;
+  background-color: rgba(102, 51, 153, 0.027);
+  border: solid 1px rgba(102, 51, 153, 0.322);
+  cursor: default;
+}
+
+#set {
+  display: block;
+  
+}
+
+#reset {
+  margin-top: 2rem;
+}
+
+form {
+  margin-top: 3rem;
+}
+
+p {
+  color: #aaa
+}
+
+input {
+  margin-bottom: 1rem;
+  min-width: 5.4rem;
+  background-color: rgba(102, 51, 153, 0.048);
+  border: solid 1px rgba(102, 51, 153, 0.322);
+  border-radius: 5px;
+  height: 1.6rem;
+  color: #aaa;
+}
