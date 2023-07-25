@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  background-color: #050505;
 }
 
 #start, #stop, #reset, #set {
@@ -44,10 +44,11 @@ p {
 
 input {
   margin-bottom: 1rem;
-  min-width: 5.4rem;
+  width: 5rem;
   background-color: rgba(102, 51, 153, 0.048);
   border: solid 1px rgba(102, 51, 153, 0.322);
   border-radius: 5px;
-  height: 1.6rem;
+  height: 1.8rem;
   color: #aaa;
+  padding-left: 0.3rem;
 }

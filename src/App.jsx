@@ -1,114 +1,14 @@
 import React, { useState, useReducer, useEffect } from "react";
-
+import {reducer, initialState} from "./reducer"
 var myInt;
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "decrease_sec":
-      return {
-        ...state,
-        sec: state.sec - 1,
-      };
-    case "disable":
-      return {
-        ...state,
-        dis: true,
-      };
-    case "not_disable":
-      return {
-        ...state,
-        dis: false,
-      };
-    case "startButton":
-      return {
-        ...state,
-        startButtonValue: action.payload,
-      };
-    case "set_minute":
-      return {
-        ...state,
-        min: action.payload,
-      };
-    case "reset_minute":
-      return {
-        ...state,
-        min: state.givenMinute - 1,
-      };
-    case "decrease_minute":
-      return {
-        ...state,
-        min: state.min - 1,
-      };
-    case "set_default_sec":
-      return {
-        ...state,
-        sec: state.secondPerMinute,
-      };
-    case "set_sec":
-      return {
-        ...state,
-        sec: state.secVal,
-      };
-    case "finished":
-      return {
-        ...state,
-        finished: true,
-      };
-    case "not_finished":
-      return {
-        ...state,
-        finished: false,
-      };
-    case "set_initial":
-      return {
-        ...state,
-        sec: action.payload,
-        min: state.givenMinute - 1,
-      };
-    case "handle_change_min":
-      return {
-        ...state,
-        minVal: action.payload || 0,
-      };
-    case "handle_change_sec":
-      return {
-        ...state,
-        secVal: action.payload || 0,
-      };
-    case "set_random":
-      return {
-        ...state,
-        givenMinute: state.minVal,
-        sec: state.secVal,
-        min: state.minVal,
-      };
-    case "is_set_time":
-      return {
-        ...state,
-        isSetTime: true,
-      };
-  }
-};
-
-const initialState = {
-  secondPerMinute: 60,
-  givenMinute: 30,
-  sec: null,
-  min: null,
-  dis: false,
-  finished: false,
-  startButtonValue: "Start",
-  minVal: "",
-  secVal: "",
-  isSetTime: false,
-};
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [status, setStatus] = useState(true);
 
   useEffect(() => {
-    dispatch({ type: "set_initial", payload: state.secondPerMinute });
+    dispatch({ type: "set_initial"});
   }, []);
 
   useEffect(() => {
@@ -169,11 +69,10 @@ function App() {
         <div style={{ color: "white" }}>
           <h1>
             {state.sec == state.secondPerMinute &&
-            state.min == state.givenMinute - 1 &&
-            state.givenMinute !== 1
+            state.min == state.givenMinute - 1 
               ? state.givenMinute
               : state.min}{" "}
-            : {state.sec == state.secondPerMinute ? "00" : state.sec}
+            : {state.sec < 10 ? "0" : ""}{state.sec == state.secondPerMinute ? "00" : state.sec}
           </h1>
         </div>
       ) : (
