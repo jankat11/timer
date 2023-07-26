@@ -43,7 +43,7 @@ export const reducer = (state, action) => {
     case "set_sec":
       return {
         ...state,
-        sec: state.secVal,
+        sec: state.secVal || 0,
       };
     case "finished":
       return {
