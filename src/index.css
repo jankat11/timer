@@ -64,6 +64,7 @@ form {
 
 p {
   color: #aaa;
+  white-space: nowrap;
 }
 
 input {
