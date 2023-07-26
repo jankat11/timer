@@ -64,12 +64,12 @@ export const reducer = (state, action) => {
     case "handle_change_min":
       return {
         ...state,
-        minVal: action.payload || 0,
+        minVal: action.payload,
       };
     case "handle_change_sec":
       return {
         ...state,
-        secVal: action.payload || 0,
+        secVal: action.payload,
       };
     case "set_random":
       return {
